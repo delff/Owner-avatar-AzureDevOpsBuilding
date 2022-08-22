@@ -4,13 +4,14 @@
 # https://aka.ms/yaml
 
 variables:
-  MSBUILD: '"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\MSBuild.exe"'
+  MSBUILD: '"C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe"'
   BL_PATH: '"C:\Program Files (x86)\GeneXus\GeneXus17"'
-  WORKING_DIR: '"C:\\AzureCheckouts\\$(KB_ALIAS)"'
+  WORKING_DIR: '"D:\\AzureCheckouts\\$(KB_ALIAS)"'
   KB_ALIAS: '"ActualizacionAmbiente2"'
   GXSERVER_URL: '"https://sandform.genexusserver.com/kbs"'
-  GXSERVER_USER: '"gxtechnical\nachob97"'
+  GXSERVER_USER: '"gxtechnical\crown081"'
   GXSERVER_PASS: $(password)
+  RUN: $(Build.BuildId)
 
 trigger:
 - main
