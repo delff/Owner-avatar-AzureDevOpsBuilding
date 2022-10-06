@@ -135,3 +135,28 @@ jobs:
           git push -u origin $(GIT_BRANCH)
         workingDirectory: $(WORKING_DIR)
         name: CommitPush
+        
+  - job: ExportDacpac
+    steps:
+      - powershell: |
+          ## Set a SMO Server object to the default instance on the local computer.  
+          CD SQLSERVER:\SQL\localhost\DEFAULT  
+          $srv = get-item .  
+            
+          ## Specify the database to extract to a DAC.  
+          $dbname = "MyDB"  
+            
+          ## Specify the DAC metadata.  
+          $applicationname = "MyApplication"  
+          $version = "1.0.0.0"  
+          $description = "This DAC defines the database used by my application."  
+            
+          ## Specify the location and name for the extracted DAC package.  
+          $dacpacPath = "C:\MyDACs\MyApplication.dacpac"  
+            
+          ## Extract the DAC.  
+          $extractionunit = New-Object Microsoft.SqlServer.Management.Dac.DacExtractionUnit($srv, $dbname, $applicationname, $version)  
+          $extractionunit.Description = $description  
+          $extractionunit.Extract($dacpacPath)  
+        workingDirectory: $(WORKING_DIR)
+        name: CommitPush
