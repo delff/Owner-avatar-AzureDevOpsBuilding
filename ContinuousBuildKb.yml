@@ -135,10 +135,12 @@ jobs:
           git push -u origin $(GIT_BRANCH)
         workingDirectory: $(WORKING_DIR)
         name: CommitPush
-        
+
   - job: ExportDacpac
     steps:
       - powershell: |
+          ## Load SQLPS assemblies
+          
           ## Set a SMO Server object to the default instance on the local computer.  
           CD SQLSERVER:\SQL\localhost\DEFAULT  
           $srv = get-item .  
