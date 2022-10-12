@@ -45,11 +45,11 @@ schedules:
     displayName: Custom time trigger
     branches:
       include:
-        - main
+        - DeploySourcesDemo
     always: true
 
 trigger:
-  - main
+  - DeploySourcesDemo
 
 pool:
   name: $(EXEC_AGENT)
