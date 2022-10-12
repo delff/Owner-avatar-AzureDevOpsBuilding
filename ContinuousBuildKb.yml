@@ -107,7 +107,7 @@ jobs:
           /p:AZURE_APIM_API_ID="myid" /p:AZURE_APIM_API_DISPLAY_NAME="mydisplay" /p:AZURE_APIM_API_SERVICE_URL="myback" /p:AZURE_APIM_API_PATH="mypath" 
           /p:AZURE_APIM_API_SUBSCRIPTION_REQUIRED="false" /p:APPLICATION_KEY="0F1E053B99063A3D2BC1264F92E7726F5791B5E37FFB5CDCDF5E675CF28167C9" /p:INCLUDE_GAM="False" 
           /p:INCLUDE_GXFLOW_BACKOFFICE="True" /p:APP_UPDATE="NONE" /p:ENABLE_KBN="False" /p:TARGET_JRE="9" /p:PACKAGE_FORMAT="Automatic" /p:DEPLOY_TYPE="SOURCES" 
-          /p:DeploySource="C:\Models\DeloitteOnboardingDemo\NetModel\Deploy\AZURE_SERVERLESS\AngularBackend_20221008133450.zip" /t:CreatePackage
+          /p:DeploySource="$(KB_PATH)\NetModel\Deploy\AZURE\$(DEPLOY_NAME).zip" /t:CreatePackage
 
         name: DeploytoWebApp
   
