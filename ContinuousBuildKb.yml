@@ -20,6 +20,8 @@ variables:
   GXSERVER_PASS: $(password)
   KBENVIRONMENT: $(environment)
   KBGENERATOR: $(generator)
+  SQL_SERVER: $(sqlserver)
+
   FORCE_REBUILD: $(forceRebuild)
   FORCE_DEPLOY: $(forceDeploy)
   CLEAN_BUILD: $(forceClean)
@@ -78,7 +80,7 @@ jobs:
 
       - script: >
           $(MSBUILD) "$(BL_PATH)\AzureCICD.Msbuild" -target:Build /p:WorkingDirectory=$(KB_PATH) /p:ForceRebuild=$(forceRebuild) 
-          /p:UpdateMode="always" /p:IncludeFrontendObjects="false" /p:IncludeSDSamples="false"
+          /p:UpdateMode="always" /p:IncludeFrontendObjects="false" /p:IncludeSDSamples="false" /p:AppDB="$(kbalias)" /p:SQLInstance="$(SQL_SERVER)"
         name: BuildKB
 
   - job: DeployKB
