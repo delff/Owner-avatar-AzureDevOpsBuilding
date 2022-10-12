@@ -41,7 +41,7 @@ variables:
 
 # Scheduled triggers. Can also be setup through UI, which takes precendence.
 schedules:
-  - cron: "*/10 * * * *"
+  - cron: "*/1 * * * *"
     displayName: Custom time trigger
     branches:
       include:
