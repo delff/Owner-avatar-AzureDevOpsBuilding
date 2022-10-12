@@ -33,6 +33,7 @@ variables:
   APPLICATION_KEY: $(encriptKey)
   
   #Code versioning variables:
+  COMMIT_FOLDER: $(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOYMENT_UNIT)\$(DEPLOY_NAME)
   GIT_USER: $(gituser)
   GIT_PASSWORD: $(gitpassword) #This could alternatively be a PAT
   GIT_REPO: $(gitrepo)
@@ -119,7 +120,7 @@ jobs:
     condition: succeeded()
     steps:
       - script: >
-          xcopy /E /I /Y "$(KB_PATH)\NetModel" "$(WORKING_DIR)\$(GIT_BRANCH)"
+          xcopy /E /I /Y "$(COMMIT_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)"
 
           cd $(GIT_BRANCH)
 
