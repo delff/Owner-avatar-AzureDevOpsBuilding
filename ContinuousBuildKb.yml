@@ -100,18 +100,23 @@ jobs:
           /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(DEPLOY_NAME)"
         name: CreatePackage
 
-  
   - job: CloneOrPull
     dependsOn: DeployKB
-    condition: always()
+    condition: Always()
     steps:
-      - script: echo "Hello pipeline"
+      - script: |
+          IF EXIST "$(GIT_BRANCH)" (
+            cd $(GIT_BRANCH)
+            git pull
+          ) ELSE (
+            git clone https://$(GIT_USER):$(GIT_PASSWORD)@$(GIT_REPO) $(WORKING_DIR)\$(GIT_BRANCH)
+          )
         workingDirectory: $(WORKING_DIR)
         name: CloneOrPull
       
   - job: PushSourcesToGit
     dependsOn: CloneOrPull
-    condition: succeeded()
+    condition: Always()
     steps:
       - script: >
           xcopy /E /I /Y "$(COMMIT_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)"
