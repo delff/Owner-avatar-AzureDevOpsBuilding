@@ -103,7 +103,6 @@ jobs:
   
   - job: CloneOrPull
     dependsOn: DeployKB
-    condition: succeeded()
     steps:
       - script: |
           IF EXIST "$(GIT_BRANCH)" (
