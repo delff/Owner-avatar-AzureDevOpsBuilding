@@ -102,7 +102,7 @@ jobs:
 
   - job: CloneOrPull
     dependsOn: DeployKB
-    condition: Always()
+    condition: succeeded()
     steps:
       - script: |
           IF EXIST "$(GIT_BRANCH)" (
@@ -117,7 +117,7 @@ jobs:
       
   - job: PushSourcesToGit
     dependsOn: CloneOrPull
-    condition: Always()
+    condition: succeeded()
     steps:
       - script: >
           cd $(GIT_BRANCH)
