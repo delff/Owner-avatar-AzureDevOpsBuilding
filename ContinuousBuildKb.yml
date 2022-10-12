@@ -104,13 +104,7 @@ jobs:
   - job: CloneOrPull
     dependsOn: DeployKB
     steps:
-      - script: |
-          IF EXIST "$(GIT_BRANCH)" (
-            cd $(GIT_BRANCH)
-            git pull
-          ) ELSE (
-            git clone https://$(GIT_USER):$(GIT_PASSWORD)@$(GIT_REPO) $(WORKING_DIR)\$(GIT_BRANCH)
-          )
+      - script: echo "Hello pipeline"
         workingDirectory: $(WORKING_DIR)
         name: CloneOrPull
       
