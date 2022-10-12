@@ -77,7 +77,7 @@ jobs:
 
       - script: >
           $(MSBUILD) "$(BL_PATH)\AzureCICD.Msbuild" -target:Build /p:WorkingDirectory=$(KB_PATH) /p:ForceRebuild=$(forceRebuild) 
-          /p:UpdateMode="always" /p:IncludeFrontendObjects="false" /p:IncludeSDSamples="false" 
+          /p:UpdateMode="always" /p:IncludeFrontendObjects="false" /p:IncludeSDSamples="false"
         name: BuildKB
 
       - script: >
