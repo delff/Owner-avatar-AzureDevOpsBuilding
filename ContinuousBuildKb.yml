@@ -21,6 +21,8 @@ variables:
   KBENVIRONMENT: $(environment)
   KBGENERATOR: $(generator)
   FORCE_REBUILD: $(forceRebuild)
+  INCLUDE_GAMFRONTEND: "false"
+  INCLUDE_SDSAMPLES: "false"
   
   #Deploy variables:
   PUBLISH_SETTINGS: $(azurePublish)
@@ -73,7 +75,9 @@ jobs:
         condition: eq(variables['forceRebuild'], 'true')
         name: CleanBuildDir
 
-      - script: $(MSBUILD) "$(BL_PATH)\AzureCICD.Msbuild" -target:Build /p:WorkingDirectory=$(KB_PATH) /p:ForceRebuild=$(forceRebuild)
+      - script: >
+          $(MSBUILD) "$(BL_PATH)\AzureCICD.Msbuild" -target:Build /p:WorkingDirectory=$(KB_PATH) /p:ForceRebuild=$(forceRebuild) 
+          /p:UpdateMode="always" /p:IncludeFrontendObjects="false" /p:IncludeSDSamples="false" 
         name: BuildKB
 
       - script: >
