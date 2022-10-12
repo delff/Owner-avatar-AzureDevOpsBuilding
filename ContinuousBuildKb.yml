@@ -103,6 +103,7 @@ jobs:
   
   - job: CloneOrPull
     dependsOn: DeployKB
+    condition: succeeded()
     steps:
       - script: echo "Hello pipeline"
         workingDirectory: $(WORKING_DIR)
