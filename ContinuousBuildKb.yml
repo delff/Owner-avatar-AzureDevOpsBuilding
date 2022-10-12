@@ -78,11 +78,11 @@ jobs:
 
       - script: >
           $(MSBUILD) "$(BL_PATH)\deploy.msbuild" /t:CreateDeploy /p:KBPath=$(KB_PATH);KBEnvironment=$(KBENVIRONMENT);DeploymentUnit=$(DEPLOYMENT_UNIT) 
-          /p:ProjectName=$(DEPLOY_NAME) /p:TargetId="AZURE" /p:ObjectNames="DeploymentUnitCategory:$(DEPLOYMENT_UNIT)"
+          /p:ProjectName=$(DEPLOY_NAME) /p:TargetId="AZURE_SERVERLESS" /p:ObjectNames="DeploymentUnitCategory:$(DEPLOYMENT_UNIT)"
           /p:DEPLOY_TARGETS="$(BL_PATH)\DeploymentTargets\Azure\azure.targets" 
           /p:DeployFullPath="$(KB_PATH)\NetModel\Deploy\AZURE\$(DEPLOYMENT_UNIT)\$(DEPLOY_NAME)" 
           /p:WebSourcePath="$(KB_PATH)\NetModel\web" /p:GX_PROGRAM_DIR="$(BL_PATH)" 
-          /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
+          /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" /p:DEPLOY_TYPE="SOURCES"
           /p:APPLICATION_KEY="$(APPLICATION_KEY)"
         name: CreateDeploy
 
@@ -136,29 +136,29 @@ jobs:
         workingDirectory: $(WORKING_DIR)
         name: CommitPush
 
-  - job: ExportDacpac
-    steps:
-      - powershell: |
-          ## Load SQLPS assemblies
-          
-          ## Set a SMO Server object to the default instance on the local computer.  
-          CD SQLSERVER:\SQL\localhost\DEFAULT  
-          $srv = get-item .  
-            
-          ## Specify the database to extract to a DAC.  
-          $dbname = "MyDB"  
-            
-          ## Specify the DAC metadata.  
-          $applicationname = "MyApplication"  
-          $version = "1.0.0.0"  
-          $description = "This DAC defines the database used by my application."  
-            
-          ## Specify the location and name for the extracted DAC package.  
-          $dacpacPath = "C:\MyDACs\MyApplication.dacpac"  
-            
-          ## Extract the DAC.  
-          $extractionunit = New-Object Microsoft.SqlServer.Management.Dac.DacExtractionUnit($srv, $dbname, $applicationname, $version)  
-          $extractionunit.Description = $description  
-          $extractionunit.Extract($dacpacPath)  
-        workingDirectory: $(WORKING_DIR)
-        name: CommitPush
+#  - job: ExportDacpac
+#    steps:
+#      - powershell: |
+#          ## Load SQLPS assemblies
+#          
+#          ## Set a SMO Server object to the default instance on the local computer.  
+#          CD SQLSERVER:\SQL\localhost\DEFAULT  
+#          $srv = get-item .  
+#            
+#          ## Specify the database to extract to a DAC.  
+#          $dbname = "MyDB"  
+#            
+#          ## Specify the DAC metadata.  
+#          $applicationname = "MyApplication"  
+#          $version = "1.0.0.0"  
+#          $description = "This DAC defines the database used by my application."  
+#            
+#          ## Specify the location and name for the extracted DAC package.  
+#          $dacpacPath = "C:\MyDACs\MyApplication.dacpac"  
+#            
+#          ## Extract the DAC.  
+#          $extractionunit = New-Object Microsoft.SqlServer.Management.Dac.DacExtractionUnit($srv, $dbname, $applicationname, $version)  
+#          $extractionunit.Description = $description  
+#          $extractionunit.Extract($dacpacPath)  
+#        workingDirectory: $(WORKING_DIR)
+#        name: CommitPush
