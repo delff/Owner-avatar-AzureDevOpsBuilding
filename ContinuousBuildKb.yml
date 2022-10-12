@@ -21,6 +21,7 @@ variables:
   KBENVIRONMENT: $(environment)
   KBGENERATOR: $(generator)
   FORCE_REBUILD: $(forceRebuild)
+  CLEAN_BUILD: $(forceClean)
   INCLUDE_GAMFRONTEND: "false"
   INCLUDE_SDSAMPLES: "false"
   
@@ -72,7 +73,7 @@ jobs:
     condition: or(and(succeeded(), gt(dependencies.CheckoutOrUpdate.outputs['CreateOrUpdateKB.updateCount'], '0')),eq(variables['forceRebuild'], 'true'))
     steps:
       - script: rmdir $(KB_PATH)\NetModel /s /q
-        condition: eq(variables['forceRebuild'], 'true')
+        condition: eq(variables['forceClean'], 'true')
         name: CleanBuildDir
 
       - script: >
