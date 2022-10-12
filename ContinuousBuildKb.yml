@@ -90,14 +90,13 @@ jobs:
           /p:DEPLOY_TARGETS="$(BL_PATH)\DeploymentTargets\AzureServerless\azureserverless.targets" 
           /p:DeployFullPath="$(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOYMENT_UNIT)\$(DEPLOY_NAME)" 
           /p:WebSourcePath="$(KB_PATH)\NetModel\web" /p:GX_PROGRAM_DIR="$(BL_PATH)" 
-          /p:DEPLOY_TYPE="SOURCES"
-          /p:APPLICATION_KEY="$(APPLICATION_KEY)"
+          /p:DEPLOY_TYPE="SOURCES" /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:TimeStamp="$(Build.BuildNumber)"
         name: CreateDeploy
 
       - script: >  
           $(MSBUILD) /ToolsVersion:4.0 "$(KB_PATH)\NetModel\web\$(DEPLOY_NAME).gxdproj" /t:CreatePackage 
           /p:GX_PROGRAM_DIR="$(BL_PATH)" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
-          /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:DEPLOY_TYPE="SOURCES"
+          /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(Build.BuildNumber)"
         name: CreatePackage
 
   
