@@ -84,6 +84,8 @@ jobs:
         name: BuildKB
 
   - job: DeployKB
+    dependsOn: BuildKnowledgeBase
+    condition: or(succeeded(), eq(variables['forceDeploy'], 'true'))
     steps:
       - script: >
           $(MSBUILD) "$(BL_PATH)\deploy.msbuild" /t:CreateDeploy /p:KBPath="$(KB_PATH)";KBEnvironment="$(KBENVIRONMENT)";DeploymentUnit="$(DEPLOYMENT_UNIT)" 
