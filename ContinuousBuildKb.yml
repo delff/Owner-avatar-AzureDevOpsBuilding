@@ -96,13 +96,6 @@ jobs:
           /p:DEPLOY_TYPE="SOURCES" /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:TimeStamp="$(DEPLOY_NAME)"
         name: CreateDeploy
 
-      - script: >  
-          $(MSBUILD) /ToolsVersion:4.0 "$(KB_PATH)\NetModel\web\$(DEPLOY_NAME).gxdproj" /t:CreatePackage 
-          /p:GX_PROGRAM_DIR="$(BL_PATH)" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
-          /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(DEPLOY_NAME)"
-          /p:INCLUDE_GAM="False" /p:INCLUDE_GXFLOW_BACKOFFICE="False"
-        name: CreatePackage
-      
       - script: >
           $(MSBUILD) "$(BL_PATH)\CreateCloudPackage.msbuild" /p:TargetId="AZURE_SERVERLESS" 
           /p:CreatePackageScript="createpackage.msbuild" /p:CreatePackageTarget="CreatePackage" 
@@ -119,6 +112,14 @@ jobs:
           /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(DEPLOY_NAME)" 
           /p:DeploySource="$(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOY_NAME).zip" 
           /t:CreatePackage
+
+      - script: >  
+          $(MSBUILD) /ToolsVersion:4.0 "$(KB_PATH)\NetModel\web\$(DEPLOY_NAME).gxdproj" /t:CreatePackage 
+          /p:GX_PROGRAM_DIR="$(BL_PATH)" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
+          /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(DEPLOY_NAME)"
+          /p:INCLUDE_GAM="False" /p:INCLUDE_GXFLOW_BACKOFFICE="False"
+        name: CreatePackage
+      
 
   - job: CloneOrPull
     dependsOn: DeployKB
