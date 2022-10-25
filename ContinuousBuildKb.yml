@@ -118,7 +118,7 @@ jobs:
 
   - job: CloneOrPull
     dependsOn: GenerateSources
-    condition: succeeded()
+    condition: or(succeeded(), eq(variables['forcePush'], 'true'))
     steps:
       - script: |
           IF EXIST "$(GIT_BRANCH)" (
@@ -133,7 +133,7 @@ jobs:
       
   - job: PushSourcesToGit
     dependsOn: CloneOrPull
-    condition: succeeded()
+    condition: or(succeeded(),eq(variables['forcePush'], 'true'))
     steps:
       - script: >
           cd $(GIT_BRANCH)
