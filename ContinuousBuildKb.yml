@@ -23,12 +23,12 @@ variables:
   SQL_SERVER: $(sqlserver)
 
   FORCE_REBUILD: $(forceRebuild)
-  FORCE_DEPLOY: $(forceDeploy)
+  FORCE_GENERATE: $(forceSources)
   CLEAN_BUILD: $(forceClean)
   INCLUDE_GAMFRONTEND: "false"
   INCLUDE_SDSAMPLES: "false"
   
-  #Deploy variables:
+  #Generate Sources variables:
   PUBLISH_SETTINGS: $(azurePublish)
   DEPLOYMENT_UNIT: $(deploymentUnit)
   DEPLOY_NAME: $(deploymentUnit)$(Build.BuildNumber)
@@ -47,11 +47,11 @@ schedules:
     displayName: Custom time trigger
     branches:
       include:
-        - DeploySourcesDemo
+        - GenerateSourcesExtraFiles
     always: true
 
 trigger:
-  - DeploySourcesDemo
+  - GenerateSourcesExtraFiles
 
 pool:
   name: $(EXEC_AGENT)
@@ -83,9 +83,9 @@ jobs:
           /p:UpdateMode="always" /p:IncludeFrontendObjects="false" /p:IncludeSDSamples="false" /p:AppDB="$(kbalias)" /p:SQLInstance="$(SQL_SERVER)"
         name: BuildKB
 
-  - job: DeployKB
+  - job: GenerateSources
     dependsOn: BuildKnowledgeBase
-    condition: or(succeeded(), eq(variables['forceDeploy'], 'true'))
+    condition: or(succeeded(), eq(variables['forceSources'], 'true'))
     steps:
       - script: >
           $(MSBUILD) "$(BL_PATH)\deploy.msbuild" /t:CreateDeploy /p:KBPath="$(KB_PATH)";KBEnvironment="$(KBENVIRONMENT)";DeploymentUnit="$(DEPLOYMENT_UNIT)" 
@@ -94,14 +94,14 @@ jobs:
           /p:DeployFullPath="$(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOYMENT_UNIT)\$(DEPLOY_NAME)" 
           /p:WebSourcePath="$(KB_PATH)\NetModel\web" /p:GX_PROGRAM_DIR="$(BL_PATH)" /p:INCLUDE_GAM="False" /p:INCLUDE_GXFLOW_BACKOFFICE="False"
           /p:DEPLOY_TYPE="SOURCES" /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:TimeStamp="$(DEPLOY_NAME)"
-        name: CreateDeploy
+        name: CreateSources
 
       - script: >  
           $(MSBUILD) /ToolsVersion:4.0 "$(KB_PATH)\NetModel\web\$(DEPLOY_NAME).gxdproj" /t:CreatePackage 
           /p:GX_PROGRAM_DIR="$(BL_PATH)" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
           /p:APPLICATION_KEY="$(APPLICATION_KEY)" /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(DEPLOY_NAME)"
           /p:INCLUDE_GAM="False" /p:INCLUDE_GXFLOW_BACKOFFICE="False"
-        name: CreatePackage
+        name: PackageSources
       
       - script: >
           $(MSBUILD) "$(BL_PATH)\CreateCloudPackage.msbuild" /p:TargetId="AZURE_SERVERLESS" 
@@ -114,9 +114,10 @@ jobs:
           /p:DEPLOY_TYPE="SOURCES" /p:TimeStamp="$(DEPLOY_NAME)" 
           /p:DeploySource="$(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOY_NAME).zip" 
           /t:CreatePackage
+        name: AdditionalResources
 
   - job: CloneOrPull
-    dependsOn: DeployKB
+    dependsOn: GenerateSources
     condition: succeeded()
     steps:
       - script: |
