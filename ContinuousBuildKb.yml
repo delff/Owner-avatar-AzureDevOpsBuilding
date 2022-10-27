@@ -36,6 +36,7 @@ variables:
   
   #Code versioning variables:
   COMMIT_FOLDER: $(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOYMENT_UNIT)\$(DEPLOY_NAME)
+  ANGULAR_FOLDER: $(KB_PATH)\NetModel\mobile\Angular
   GIT_USER: $(gituser)
   GIT_PASSWORD: $(gitpassword) #This could alternatively be a PAT
   GIT_REPO: $(gitrepo)
@@ -115,6 +116,7 @@ jobs:
           /p:DeploySource="$(KB_PATH)\NetModel\Deploy\AZURE_SERVERLESS\$(DEPLOY_NAME).zip" 
           /t:CreatePackage
         name: AdditionalResources
+        
 
   - job: CloneOrPull
     dependsOn: GenerateSources
@@ -139,6 +141,8 @@ jobs:
           cd $(GIT_BRANCH)
 
           git checkout $(GIT_BRANCH)
+
+          xcopy /E /I /Y "$(COMMIT_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)\Angular"
 
           xcopy /E /I /Y "$(COMMIT_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)\$(DEPLOYMENT_UNIT)"
 
