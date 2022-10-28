@@ -142,7 +142,7 @@ jobs:
 
           git checkout $(GIT_BRANCH)
 
-          xcopy /E /I /Y "$(COMMIT_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)\Angular"
+          xcopy /E /I /Y "$(ANGULAR_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)\Angular"
 
           xcopy /E /I /Y "$(COMMIT_FOLDER)" "$(WORKING_DIR)\$(GIT_BRANCH)\$(DEPLOYMENT_UNIT)"
 
