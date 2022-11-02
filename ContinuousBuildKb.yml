@@ -43,15 +43,15 @@ variables:
 
 # Scheduled triggers. Can also be setup through UI, which takes precendence.
 schedules:
-  - cron: "*/1 * * * *"
+  - cron: "*/10 * * * *"
     displayName: Custom time trigger
     branches:
       include:
-        - DeploySourcesDemo
+        - main
     always: true
 
 trigger:
-  - DeploySourcesDemo
+  - main
 
 pool:
   name: $(EXEC_AGENT)
