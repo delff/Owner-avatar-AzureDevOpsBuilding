@@ -52,7 +52,11 @@ schedules:
     always: true
 
 trigger:
-  - GenerateSourcesExtraFiles
+  batch: true
+  branches:
+    include:
+    - GenerateSourcesExtraFiles
+
 
 pool:
   name: $(EXEC_AGENT)
