@@ -168,4 +168,8 @@ jobs:
           sqlpackage /TargetFile:".\$(kbalias).dacpac" /Action:Extract 
           /scs:"Server=$(SQL_SERVER);Initial Catalog=$(kbalias);Trusted_Connection=True;TrustServerCertificate=True;"
         workingDirectory: $(WORKING_DIR)
-        name: CloneOrPull
+        name: GeneratingDacpac
+        
+      - publish: $(WORKING_DIR)/$(kbalias).dacpac
+        artifact: $(kbalias).dacpac
+        name: 'PublishArtifact'
