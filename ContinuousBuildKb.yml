@@ -61,6 +61,15 @@ trigger:
 pool:
   name: $(EXEC_AGENT)
 
+parameters:
+- name: testParam
+  displayName: Test Parameter
+  type: bool
+  default: false
+  values:
+  - true
+  - false
+
 jobs:
   - job: CheckoutOrUpdate
     condition: always()
