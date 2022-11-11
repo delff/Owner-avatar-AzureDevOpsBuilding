@@ -21,10 +21,6 @@ variables:
   KBENVIRONMENT: $(environment)
   KBGENERATOR: $(generator)
   SQL_SERVER: $(sqlserver)
-
-  FORCE_REBUILD: $(forceRebuild)
-  FORCE_GENERATE: $(forceSources)
-  CLEAN_BUILD: $(forceClean)
   INCLUDE_GAMFRONTEND: "false"
   INCLUDE_SDSAMPLES: "false"
   
@@ -60,15 +56,6 @@ trigger:
 
 pool:
   name: $(EXEC_AGENT)
-
-parameters:
-- name: testParam
-  displayName: Test Parameter
-  type: boolean
-  default: false
-  values:
-  - true
-  - false
 
 jobs:
   - job: CheckoutOrUpdate
@@ -182,3 +169,33 @@ jobs:
       - publish: $(WORKING_DIR)/$(kbalias).dacpac
         artifact: $(kbalias).dacpac
         name: 'PublishArtifact'
+
+parameters:
+- name: forceClean
+  displayName: Force Clean
+  type: boolean
+  default: false
+  values:
+  - true
+  - false
+- name: forceRebuild
+  displayName: Force Rebuild
+  type: boolean
+  default: false
+  values:
+  - true
+  - false
+- name: forceSources
+  displayName: Force Generate Sources
+  type: boolean
+  default: false
+  values:
+  - true
+  - false
+- name: forcePush
+  displayName: Force Push
+  type: boolean
+  default: false
+  values:
+  - true
+  - false
