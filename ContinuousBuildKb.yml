@@ -157,3 +157,15 @@ jobs:
           git push -u origin $(GIT_BRANCH)
         workingDirectory: $(WORKING_DIR)
         name: CommitPush
+
+    #Requires installing sqlpackage
+    #use: dotnet tool install -g microsoft.sqlpackage
+  - job: GenerateDacpac
+    dependsOn: BuildKnowledgeBase
+    condition: succeeded()
+    steps:
+      - powershell: >
+          sqlpackage /TargetFile:".\$(kbalias).dacpac" /Action:Extract 
+          /scs:"Server=$(SQL_SERVER);Initial Catalog=$(kbalias);Trusted_Connection=True;TrustServerCertificate=True;"
+        workingDirectory: $(WORKING_DIR)
+        name: CloneOrPull
