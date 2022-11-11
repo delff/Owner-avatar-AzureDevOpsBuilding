@@ -64,7 +64,7 @@ pool:
 parameters:
 - name: testParam
   displayName: Test Parameter
-  type: bool
+  type: boolean
   default: false
   values:
   - true
