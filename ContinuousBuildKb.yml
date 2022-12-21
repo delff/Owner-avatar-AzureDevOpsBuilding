@@ -73,10 +73,10 @@ jobs:
 
   - job: BuildKnowledgeBase
     dependsOn: CheckoutOrUpdate
-    condition: or(and(succeeded(), gt(dependencies.CheckoutOrUpdate.outputs['CreateOrUpdateKB.updateCount'], '0')),eq(${{parameters.forceRebuild}}, 'true'))
+    condition: or(and(succeeded(), gt(dependencies.CheckoutOrUpdate.outputs['CreateOrUpdateKB.updateCount'], '0')),eq(${{parameters.forceRebuild}}, True))
     steps:
       - script: rmdir $(KB_PATH)\NetModel /s /q
-        condition: eq(${{parameters.forceClean}}, 'true')
+        condition: eq(${{parameters.forceClean}}, True)
         name: CleanBuildDir
 
       - script: >
