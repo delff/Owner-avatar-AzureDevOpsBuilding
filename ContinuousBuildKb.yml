@@ -86,7 +86,7 @@ jobs:
 
   - job: GenerateSources
     dependsOn: BuildKnowledgeBase
-    condition: or(succeeded(), eq(${{parameters.forceSources}}, 'true'))
+    condition: or(succeeded(), eq(${{parameters.forceSources}}, True))
     steps:
       - script: >
           $(MSBUILD) "$(BL_PATH)\deploy.msbuild" /t:CreateDeploy /p:KBPath="$(KB_PATH)";KBEnvironment="$(KBENVIRONMENT)";DeploymentUnit="$(DEPLOYMENT_UNIT)" 
@@ -120,7 +120,7 @@ jobs:
 
   - job: CloneOrPull
     dependsOn: GenerateSources
-    condition: or(succeeded(), eq(${{parameters.forcePush}}, 'true'))
+    condition: or(succeeded(), eq(${{parameters.forcePush}}, True))
     steps:
       - script: |
           IF EXIST "$(GIT_BRANCH)" (
@@ -135,7 +135,7 @@ jobs:
       
   - job: PushSourcesToGit
     dependsOn: CloneOrPull
-    condition: or(succeeded(),eq(${{parameters.forcePush}}], 'true'))
+    condition: or(succeeded(),eq(${{parameters.forcePush}}, True))
     steps:
       - script: >
           cd $(GIT_BRANCH)
