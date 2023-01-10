@@ -38,6 +38,10 @@ variables:
   GIT_REPO: $(gitrepo)
   GIT_BRANCH: $(gitbranch) #Branch must exist. Content will be overwritten
 
+  #Testing variables:
+  TEST_LIST: $(testlist) #Object names separated by semicolons
+  TEST_TYPE: $(testtype) #Select tests by type instead of listing
+
 # Scheduled triggers. Can also be setup through UI, which takes precendence.
 schedules:
   - cron: "*/10 * * * *"
@@ -169,6 +173,16 @@ jobs:
       - publish: $(WORKING_DIR)/$(kbalias).dacpac
         artifact: $(kbalias).dacpac
         name: 'PublishArtifact'
+        
+  - job: RunTestSuite
+    dependsOn: BuildKnowledgeBase
+    condition: or(succeeded(), eq(${{parameters.forceTests}}, True))
+    steps:
+      - script: >
+          $(MSBUILD) "$(BL_PATH)\AzureCICD.msbuild" -target:RunTestSuite /p:WorkingDirectory=$(KB_PATH) 
+          /p:TestType=$(TEST_TYPE) /p:testObjectsList=$(TEST_LIST) /p:ServerKbAlias=$(KB_ALIAS) 
+          /p:ServerUsername=$(GXSERVER_USER) /p:ServerPassword=$(GXSERVER_PASS)
+        name: RunTests
 
 parameters:
 - name: forceClean
@@ -194,6 +208,13 @@ parameters:
   - false
 - name: forcePush
   displayName: Force Push
+  type: boolean
+  default: false
+  values:
+  - true
+  - false
+- name: forceTests
+  displayName: Force Tests
   type: boolean
   default: false
   values:
