@@ -183,6 +183,10 @@ jobs:
           /p:TestType=$(TEST_TYPE) /p:testObjectsList=$(TEST_LIST) /p:ServerKbAlias=$(KB_ALIAS)
           /p:ServerUsername=$(GXSERVER_USER) /p:ServerPassword=$(GXSERVER_PASS) /p:TestFilePath="$(WORKING_DIR)\JUnitTestResult.xml"
         name: RunTests
+      
+      - publish: "$(WORKING_DIR)/JUnitTestResult.xml"
+        artifact: "JUnitTestResult.xml"
+        name: 'PublishArtifact'
 
 parameters:
 - name: forceClean
