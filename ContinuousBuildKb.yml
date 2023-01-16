@@ -180,8 +180,8 @@ jobs:
     steps:
       - script: >
           $(MSBUILD) "$(BL_PATH)\AzureCICD.msbuild" -target:RunTestSuite /p:WorkingDirectory=$(KB_PATH) 
-          /p:TestType=$(TEST_TYPE) /p:testObjectsList=$(TEST_LIST) /p:ServerKbAlias=$(KB_ALIAS) 
-          /p:ServerUsername=$(GXSERVER_USER) /p:ServerPassword=$(GXSERVER_PASS)
+          /p:TestType=$(TEST_TYPE) /p:testObjectsList=$(TEST_LIST) /p:ServerKbAlias=$(KB_ALIAS)
+          /p:ServerUsername=$(GXSERVER_USER) /p:ServerPassword=$(GXSERVER_PASS) /p:TestFilePath="$(WORKING_DIR)\JUnitTestResult.xml"
         name: RunTests
 
 parameters:
