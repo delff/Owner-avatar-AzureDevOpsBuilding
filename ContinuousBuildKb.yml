@@ -61,6 +61,7 @@ jobs:
           set /p updateCount=<"$(KB_PATH)\updateCount.txt"
 
           echo ##vso[task.setvariable variable=updateCount;isOutput=true]%updateCount%
+          echo "$(MSBUILD)"  
         name: CreateOrUpdateKB
 
 
