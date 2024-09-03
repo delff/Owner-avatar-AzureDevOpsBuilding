@@ -100,11 +100,11 @@ jobs:
 
       - script: >  
           echo $(MSBUILD) /ToolsVersion:4.0 "$(KB_PATH)\NETSQLServer003\web\$(DEPLOY_NAME).gxdproj" /t:CreatePackage 
-          /p:GX_PROGRAM_DIR="C:\Program Files (x86)\GeneXus\genexus18u10AzureCICD\" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
+          /p:GX_PROGRAM_DIR="C:\Program Files (x86)\GeneXus\genexus18u10AzureCICD" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
           /p:APPLICATION_KEY="$(APPLICATION_KEY)"
 
           $(MSBUILD) /ToolsVersion:4.0 "$(KB_PATH)\NETSQLServer003\web\$(DEPLOY_NAME).gxdproj" /t:CreatePackage 
-          /p:GX_PROGRAM_DIR="C:\Program Files (x86)\GeneXus\genexus18u10AzureCICD\" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
+          /p:GX_PROGRAM_DIR="C:\Program Files (x86)\GeneXus\genexus18u10AzureCICD" /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
           /p:APPLICATION_KEY="$(APPLICATION_KEY)"
         name: CreatePackage
 
