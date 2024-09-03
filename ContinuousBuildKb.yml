@@ -89,6 +89,7 @@ jobs:
           /p:AZURE_PUBLISH_SETTINGS="$(PUBLISH_SETTINGS)" 
           /p:APPLICATION_KEY="$(APPLICATION_KEY)"
           
+          
           $(MSBUILD) $(BL_PATH)\deploy.msbuild /t:CreateDeploy /p:KBPath=$(KB_PATH);KBEnvironment=$(KBENVIRONMENT);DeploymentUnit=$(DEPLOYMENT_UNIT) 
           /p:ProjectName=$(DEPLOY_NAME) /p:TargetId="AZURE" /p:ObjectNames="DeploymentUnitCategory:$(DEPLOYMENT_UNIT)"
           /p:DEPLOY_TARGETS="$(BL_PATH)\DeploymentTargets\Azure\azure.targets" 
