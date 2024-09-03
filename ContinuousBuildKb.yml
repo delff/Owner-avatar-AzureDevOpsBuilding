@@ -77,7 +77,7 @@ jobs:
       - script: rmdir $(KB_PATH)\NETSQLServer003 /s /q
         condition: eq(variables['forceRebuild'], 'true')
         name: CleanBuildDir
-      - script: $(MSBUILD) $(BL_PATH)\AzureCICD.Msbuild -target:UpdateToLatest /p:ServerUsername="sa" /p:ServerPassword="genexus" /p:WorkingDirectory$(KB_PATH) 
+      - script: $(MSBUILD) $(BL_PATH)\AzureCICD.Msbuild -target:UpdateToLatest /p:ServerUsername="sa" /p:ServerPassword="genexus" /p:WorkingDirectory=$(KB_PATH) 
       - script: $(MSBUILD) $(BL_PATH)\AzureCICD.Msbuild -target:Build /p:WorkingDirectory=$(KB_PATH) /p:ForceRebuild=$(forceRebuild)
         name: BuildKB
 
