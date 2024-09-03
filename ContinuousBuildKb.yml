@@ -54,13 +54,13 @@ jobs:
     condition: always()
     steps:
       - script: >
-          echo "$(MSBUILD)"  
-          echo "$(BL_PATH)" 
-          echo "$(KB_PATH)"
-          echo "$(KB_ALIAS)"
-          echo "$(GXSERVER_URL)"
-          echo "$(GXSERVER_USER)"
-          echo "$(GXSERVER_PASS)"
+          echo $(MSBUILD)  
+          echo $(BL_PATH) 
+          echo $(KB_PATH)
+          echo $(KB_ALIAS)
+          echo $(GXSERVER_URL)
+          echo $(GXSERVER_USER)
+          echo $(GXSERVER_PASS)
 
           $(MSBUILD) "$(BL_PATH)\AzureCICD.msbuild" -target:CreateOrUpdateKB /p:WorkingDirectory=$(KB_PATH) /p:CreateDbInKbFolder=True
           /p:DbaseName=$(KB_ALIAS) /p:DbaseUseIntegratedSecurity=True /p:ServerUrl=$(GXSERVER_URL) /p:ServerKbAlias=$(KB_ALIAS) 
